@@ -1,7 +1,8 @@
 # Re Pong
 
-これは、42Tokyoの最終課題「ft_transcendence」（公式リポジトリ
-）の個人再実装プロジェクトです。
+これは、42Tokyoの最終課題「ft_transcendence」の個人再実装プロジェクトです。
+本家課題として行ったものは以下のリンクにあります。基本的な概要はそちらを参照してください。
+https://github.com/iesuy-ryanagit/ft_transcendence_koko
 
 本家課題では言語やフレームワークに制約がありましたが、
 このプロジェクトではそれらを自由に選び、よりモダンかつ快適な環境を目指して再構築しています。
