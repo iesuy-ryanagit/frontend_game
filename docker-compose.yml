@@ -1,0 +1,35 @@
+services:
+  account_go:
+    build: ./account_go
+    container_name: account_go
+    networks:
+      - app-network
+    ports:
+      - "8080:8080"
+    env_file: .env
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    networks:
+      - app-network
+    ports:
+      - "3000:3000"
+    env_file: .env
+  game_go:
+    build: ./game_go
+    container_name: game_go 
+    networks:
+      - app-network
+    ports:
+      - "8081:8081"
+    env_file: .env
+
+
+networks:
+  app-network:
+    driver: bridge
+
