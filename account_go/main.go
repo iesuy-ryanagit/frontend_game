@@ -5,17 +5,35 @@ import (
     "account_go/models"
     "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
-    "gorm.io/driver/sqlite"
+    "gorm.io/driver/postgres"
     "gorm.io/gorm"
     "time"
     "os"
+	"log"
+	"fmt"
 )
 
 func main() {
-    db, err := gorm.Open(sqlite.Open("/app/users.db"), &gorm.Config{})
-    if err != nil {
-        panic("failed to connect database")
+	host := os.Getenv("DB_HOST")
+    user := os.Getenv("DB_USER")
+    password := os.Getenv("DB_PASSWORD")
+    dbname := os.Getenv("DB_NAME")
+    port := os.Getenv("DB_PORT")
+    sslmode := os.Getenv("DB_SSLMODE")
+    timezone := os.Getenv("DB_TIMEZONE")
+	    dsn := fmt.Sprintf(
+        "host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
+        host, user, password, dbname, port, sslmode, timezone,
+    )
+
+	if dsn == "" {
+        dsn = "host=localhost user=postgres password=secret dbname=account_app port=5432 sslmode=disable TimeZone=Asia/Tokyo"
     }
+    db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+    if err != nil {
+        log.Fatal("❌ failed to connect to database:", err)
+    }
+	db.AutoMigrate(&models.User{})
 
     db.AutoMigrate(&models.User{})
 
@@ -23,7 +41,6 @@ func main() {
 
     // ✅ CORS設定を一括で追加
     frontendURL := os.Getenv("FRONTEND_URL")
-	frontendURL = "http://localhost:3000" // ローカル開発用デフォルト値
     router.Use(cors.New(cors.Config{
         AllowOrigins:     []string{frontendURL},
         AllowMethods:     []string{"POST", "GET", "PUT", "DELETE","PATCH","OPTIONS"},

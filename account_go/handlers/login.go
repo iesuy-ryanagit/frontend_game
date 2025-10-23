@@ -48,7 +48,16 @@ func LoginHandler(c *gin.Context, db *gorm.DB) {
     }
 
     // Cookieに設定
-    c.SetCookie("jwt", token, 86400, "/", "", true, true)
+    cookie := &http.Cookie{
+        Name:     "jwt",
+        Value:    token,
+        Path:     "/",
+        MaxAge:   86400,      // 1日
+        HttpOnly: true,       // JSアクセス禁止
+        Secure:   true,       // HTTPS限定（本番環境用）
+        SameSite: http.SameSiteNoneMode, // クロスサイトで送信可能に
+    }
+    http.SetCookie(c.Writer, cookie)
 
     c.JSON(http.StatusOK, gin.H{
         "status": "success",

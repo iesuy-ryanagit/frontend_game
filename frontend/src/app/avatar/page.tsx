@@ -120,7 +120,7 @@ export default function AvatarSelectPage() {
         onClick={handleGoDash}
         className="mt-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
       >
-        ゲームを始める
+        ダッシュボードへ戻る
       </button>
       {message && <p className="mt-4 text-gray-700">{message}</p>}
     </div>

@@ -17,6 +17,5 @@ RUN apt-get update && \
 
 COPY --from=builder /app/server .
 COPY static ./static
-COPY users.db .
 EXPOSE 8080
 CMD ["./server"]
